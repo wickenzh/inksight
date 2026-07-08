@@ -16,7 +16,8 @@
 为了方便不同开发者，我们在 Release 中提供了适配多种开发板的预编译固件。主要支持以下主控：
 1. **ESP32-C3 Pro mini**：体积小巧，原生 USB CDC（固件后缀常带 `c3_promini`）。
 2. **ESP32-C3 标准板**：带独立串口芯片（如 CH340），串口调试更稳定（固件后缀常带 `c3_std`）。
-3. **ESP32-WROOM-32E**：经典的 ESP32 标准开发板（固件后缀常带 `wroom32e`）。
+3. **ESP32-S3 N16R8 开发板**：适合需要更大 Flash / PSRAM 的 4.2 寸方案（固件环境为 `epd_42_wsv2_ssd1683_yd_s3_n16r8`）。
+4. **ESP32-WROOM-32E**：经典的 ESP32 标准开发板（固件后缀常带 `wroom32e`）。
 
 推荐以 **4.2 寸屏幕** 搭配 **ESP32-C3 系列开发板** 作为首选方案的原因：
 - 资料、文档、配置页预览都优先围绕 4.2寸版本展开
@@ -83,6 +84,20 @@
 | 锂电池 ADC | `GPIO0` |
 | 配置按键 | `GPIO9` |
 | LED | `GPIO3` |
+
+### ESP32-S3 N16R8 Profile
+
+| 功能 | 引脚 |
+|------|------|
+| MOSI | `GPIO11` |
+| SCK | `GPIO12` |
+| CS | `GPIO10` |
+| DC | `GPIO9` |
+| RST | `GPIO8` |
+| BUSY | `GPIO7` |
+| 锂电池 ADC | `GPIO4` |
+| 配置按键 | `GPIO0` |
+| 板载 RGB LED | `GPIO48` |
 
 ### ESP32-WROOM32E Profile
 

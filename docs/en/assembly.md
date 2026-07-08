@@ -13,9 +13,11 @@ This guide helps you complete basic assembly in 10-20 minutes.
 - 6+ dupont wires
 - USB-C data cable
 
-## 2. Recommended wiring for 4.2-inch + ESP32-C3
+## 2. Recommended wiring for 4.2-inch + ESP32-C3 / ESP32-S3
 
 If you use the recommended build (`epd_42_wsv2_ssd1683_c3_promini`), wire it like this:
+
+### ESP32-C3 Pro mini (`epd_42_wsv2_ssd1683_c3_promini`)
 
 | ESP32-C3 | E-paper |
 |----------|---------|
@@ -25,6 +27,21 @@ If you use the recommended build (`epd_42_wsv2_ssd1683_c3_promini`), wire it lik
 | `GPIO1` | `DC` |
 | `GPIO2` | `RST` |
 | `GPIO10` | `BUSY` |
+| `3V3` | `VCC` |
+| `GND` | `GND` |
+
+### ESP32-S3 N16R8 dev board (`epd_42_wsv2_ssd1683_yd_s3_n16r8`)
+
+If you use the ESP32-S3 N16R8 dev board, wire it according to the S3 firmware profile:
+
+| ESP32-S3 | E-paper |
+|----------|---------|
+| `GPIO12` | `CLK / SCK` |
+| `GPIO11` | `DIN / MOSI` |
+| `GPIO10` | `CS` |
+| `GPIO9` | `DC` |
+| `GPIO8` | `RST` |
+| `GPIO7` | `BUSY` |
 | `3V3` | `VCC` |
 | `GND` | `GND` |
 
@@ -119,6 +136,7 @@ Check these first:
 4. **the module silk labels do not match your assumed pin order**
 
 For the recommended ESP32-C3 build, the critical path is: `GPIO10` ↔ display `BUSY`.
+For the ESP32-S3 N16R8 build, the critical path is: `GPIO7` ↔ display `BUSY`.
 
 ## 6. Next Step
 
