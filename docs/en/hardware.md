@@ -17,7 +17,8 @@ The most recommended and best-supported combination today is:
 To accommodate different developers, we provide pre-compiled firmware in our Releases for various boards and screens. The main supported MCUs include:
 1. **ESP32-C3 Pro mini**: Compact size, native USB CDC (firmware suffix typically contains `c3_promini`).
 2. **ESP32-C3 Standard Board**: Features a dedicated serial chip (like CH340) for more stable serial debugging (firmware suffix typically contains `c3_std`).
-3. **ESP32-WROOM-32E**: The classic standard ESP32 development board (firmware suffix typically contains `wroom32e`).
+3. **ESP32-S3 N16R8 dev board**: A 4.2-inch option for larger Flash / PSRAM builds (firmware environment: `epd_42_wsv2_ssd1683_yd_s3_n16r8`).
+4. **ESP32-WROOM-32E**: The classic standard ESP32 development board (firmware suffix typically contains `wroom32e`).
 
 Why the **4.2-inch screen** paired with the **ESP32-C3 series** is recommended as the first choice:
 - screenshots and product docs are centered on the 4.2-inch version
@@ -84,6 +85,20 @@ The current pin definitions are implemented in: `firmware/src/config.h`
 | Lithium battery ADC | `GPIO0` |
 | Config button | `GPIO9` |
 | LED | `GPIO3` |
+
+### ESP32-S3 N16R8 profile
+
+| Function | Pin |
+|----------|-----|
+| MOSI | `GPIO11` |
+| SCK | `GPIO12` |
+| CS | `GPIO10` |
+| DC | `GPIO9` |
+| RST | `GPIO8` |
+| BUSY | `GPIO7` |
+| Lithium battery ADC | `GPIO4` |
+| Config button | `GPIO0` |
+| Onboard RGB LED | `GPIO48` |
 
 ### ESP32-WROOM32E profile
 
