@@ -180,6 +180,12 @@ BUILTIN_CATALOG: list[CatalogItem] = [
         en=CatalogText(name="Timetable", tip="Weekly class schedule display"),
     ),
     CatalogItem(
+        mode_id="MOYU",
+        category="more",
+        zh=CatalogText(name="摸鱼热榜", tip="全网时间线热榜"),
+        en=CatalogText(name="Moyu Hot List", tip="Timeline hot list across the web"),
+    ),
+    CatalogItem(
         mode_id="MY_ADAPTIVE",
         category="custom",
         zh=CatalogText(name="相框", tip="上传本地照片（至多6张），循环播放"),
@@ -190,4 +196,3 @@ BUILTIN_CATALOG: list[CatalogItem] = [
 
 def builtin_catalog_map() -> dict[str, CatalogItem]:
     return {item.mode_id.upper(): item for item in BUILTIN_CATALOG}
-

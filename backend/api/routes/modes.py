@@ -570,7 +570,8 @@ async def create_custom_mode(body: dict, request: Request, user_id: int = Depend
 
     body["mode_id"] = mode_id
     registry = get_registry()
-    if registry.is_builtin(mode_id):
+    existing_info = registry.get_mode_info(mode_id)
+    if existing_info and existing_info.source != "custom":
         return JSONResponse(
             {"error": f"Cannot override builtin mode: {mode_id}"},
             status_code=409,

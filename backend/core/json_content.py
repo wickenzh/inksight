@@ -161,6 +161,35 @@ def _normalize_almanac_chongsha(value: Any) -> str:
     return text.replace("(", "（").replace(")", "）")
 
 
+def _rule_based_almanac_health_tip(result: dict[str, Any], fallback_tip: str) -> str:
+    yi = _normalize_almanac_list(result.get("fitness"), limit=3)
+    ji = _normalize_almanac_list(result.get("taboo"), limit=3)
+    solar_term = str(result.get("jieqi") or "").strip()
+
+    def has_any(text: str, words: tuple[str, ...]) -> bool:
+        return any(word in text for word in words)
+
+    if has_any(ji, ("动土", "修造", "破土", "安葬")):
+        return "少动土木，保持安稳"
+    if has_any(ji, ("出行", "远行", "赴任")):
+        return "行程从简，早些休息"
+    if has_any(ji, ("嫁娶", "订盟", "纳采")):
+        return "人情事务，宜缓不急"
+    if has_any(yi, ("沐浴", "扫舍", "除服")):
+        return "整理清洁，身心轻快"
+    if has_any(yi, ("祭祀", "祈福", "会友")):
+        return "静心处事，少些匆忙"
+    if solar_term in ("小暑", "大暑", "立夏", "夏至"):
+        return "暑热时节，清淡补水"
+    if solar_term in ("立冬", "小雪", "大雪", "冬至", "小寒", "大寒"):
+        return "寒时护暖，早睡养神"
+    if solar_term in ("立春", "雨水", "惊蛰", "春分", "清明", "谷雨"):
+        return "顺应春生，舒展身心"
+    if solar_term in ("立秋", "处暑", "白露", "秋分", "寒露", "霜降"):
+        return "秋燥渐起，润养作息"
+    return str(fallback_tip or "").strip() or "起居有常，饮食清淡"
+
+
 def _summarize_almanac_payload(result: dict[str, Any], fallback: dict[str, Any]) -> dict[str, Any]:
     solar_term = str(result.get("jieqi") or "").strip() or str(fallback.get("solar_term") or "").strip()
     yi = _normalize_almanac_list(result.get("fitness"), limit=3) or str(fallback.get("yi") or "").strip()
@@ -300,7 +329,7 @@ async def _generate_almanac_health_tip(result: dict[str, Any], fallback_tip: str
             return cleaned[:20]
     except (LLMKeyMissingError, httpx.HTTPError, HTTPStatusError, OpenAIError, OSError, TypeError, ValueError):
         logger.warning("[ALMANAC] Failed to generate daily health tip", exc_info=True)
-    return fallback_tip
+    return _rule_based_almanac_health_tip(result, fallback_tip)
 
 
 def _make_aliyun_mt_client() -> AlimtClient | None:

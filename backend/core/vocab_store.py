@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -21,19 +22,32 @@ RATING_LABELS = {
 _DATA_DIR = Path(__file__).resolve().parent / "vocab_data"
 
 
+def _auto_seed_decks() -> set[str] | None:
+    raw = os.getenv("VOCAB_AUTO_SEED_DECKS", "all").strip()
+    if raw.lower() == "all":
+        return None
+    decks = {part.strip() for part in raw.split(",") if part.strip()}
+    return decks or {DEFAULT_DECK_ID}
+
+
 async def seed_builtin_vocab() -> None:
     if not _DATA_DIR.exists():
         return
 
     now = datetime.now().isoformat()
     db = await get_main_db()
+    allowed_decks = _auto_seed_decks()
     for path in sorted(_DATA_DIR.glob("*.json")):
+        deck_id = path.stem
+        if allowed_decks is not None and deck_id not in allowed_decks:
+            continue
         try:
             items = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
         if not isinstance(items, list):
             continue
+        rows: list[tuple[str, str, str, str, str, int, str]] = []
         for item in items:
             if not isinstance(item, dict):
                 continue
@@ -41,22 +55,27 @@ async def seed_builtin_vocab() -> None:
             definition = str(item.get("definition") or "").strip()
             if not word or not definition:
                 continue
-            await db.execute(
-                """
-                INSERT OR IGNORE INTO vocab_items
-                    (deck_id, word, phonetic, definition, example, difficulty, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
+            rows.append(
                 (
-                    str(item.get("deck_id") or DEFAULT_DECK_ID),
+                    str(item.get("deck_id") or deck_id or DEFAULT_DECK_ID),
                     word,
                     str(item.get("phonetic") or ""),
                     definition,
                     str(item.get("example") or ""),
                     int(item.get("difficulty") or 1),
                     now,
-                ),
+                )
             )
+        if not rows:
+            continue
+        await db.executemany(
+            """
+            INSERT OR IGNORE INTO vocab_items
+                (deck_id, word, phonetic, definition, example, difficulty, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            rows,
+        )
     await db.commit()
 
 

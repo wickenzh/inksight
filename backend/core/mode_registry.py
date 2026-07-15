@@ -132,6 +132,12 @@ class ModeRegistry:
                 f"[Registry] JSON mode {mode_id} shadows builtin — skipped"
             )
             return None
+        existing = self._json_modes.get(mode_id)
+        if source == "custom" and existing and existing.info.source != "custom":
+            logger.warning(
+                f"[Registry] Custom JSON mode {mode_id} shadows {existing.info.source} — skipped"
+            )
+            return None
 
         info = ModeInfo(
             mode_id=mode_id,
@@ -241,6 +247,12 @@ class ModeRegistry:
         if mode_id in self._builtin:
             logger.warning(
                 f"[Registry] Custom mode {mode_id} shadows builtin — skipped"
+            )
+            return None
+        existing = self._json_modes.get(mode_id)
+        if source == "custom" and existing and existing.info.source != "custom":
+            logger.warning(
+                f"[Registry] Custom mode {mode_id} shadows {existing.info.source} — skipped"
             )
             return None
 
