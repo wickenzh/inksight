@@ -3,7 +3,7 @@
 # 墨鱼 | InkSight — ESP32-S3-RLCD4.2 适配
 
 > [!IMPORTANT]
-> 本 Fork 专门适配 **Waveshare ESP32-S3-RLCD-4.2** 反射式 LCD 一体板，
+> 本 Fork 专门适配 **Waveshare ESP32-S3-RLCD-4.2** 微雪RLCD开发板。
 > 基于并保留对原作者项目
 > [datascale-ai/inksight](https://github.com/datascale-ai/inksight) 的引用与署名。
 > 与上游采用 Arduino/PlatformIO 的固件不同，本设备适配使用纯
