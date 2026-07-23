@@ -16,6 +16,9 @@ English | [中文](README.md)
 > and long-running scenarios have not been fully tested. Treat this
 > repository as an experimental first adaptation rather than a
 > feature-complete replacement for the upstream firmware.
+>
+> Automated firmware builds are available from the
+> [latest ESP32-S3-RLCD4.2 prerelease](https://github.com/wickenzh/inksight/releases/tag/esp32-s3-rlcd4.2-latest).
 
 > A calm e-ink desk companion with one website for flashing, configuration, preview, and discovering new modes.
 

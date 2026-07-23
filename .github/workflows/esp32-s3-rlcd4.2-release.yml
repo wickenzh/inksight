@@ -1,0 +1,150 @@
+name: ESP32-S3-RLCD4.2 Firmware Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firmware/esp-idf/ESP32-S3-RLCD4.2/**"
+      - ".github/workflows/esp32-s3-rlcd4.2-release.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: esp32-s3-rlcd4.2-firmware-release
+  cancel-in-progress: true
+
+env:
+  PROJECT_DIR: firmware/esp-idf/ESP32-S3-RLCD4.2
+  RELEASE_TAG: esp32-s3-rlcd4.2-latest
+
+jobs:
+  build-and-release:
+    name: Build and publish ESP-IDF firmware
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build firmware and merged flash image
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.5.3
+          target: esp32s3
+          path: ${{ env.PROJECT_DIR }}
+          command: >-
+            idf.py build &&
+            cd build &&
+            esptool.py --chip esp32s3 merge_bin
+            -o ../ESP32-S3-RLCD4.2-full.bin
+            @flash_args
+
+      - name: Package release assets
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          dist_dir="${RUNNER_TEMP}/esp32-s3-rlcd4.2-release"
+          package_dir="${dist_dir}/ESP32-S3-RLCD4.2"
+          mkdir -p "${package_dir}/bootloader" "${package_dir}/partition_table"
+
+          cp "${PROJECT_DIR}/ESP32-S3-RLCD4.2-full.bin" \
+            "${dist_dir}/ESP32-S3-RLCD4.2-full.bin"
+          cp "${PROJECT_DIR}/build/bootloader/bootloader.bin" \
+            "${package_dir}/bootloader/bootloader.bin"
+          cp "${PROJECT_DIR}/build/partition_table/partition-table.bin" \
+            "${package_dir}/partition_table/partition-table.bin"
+          cp "${PROJECT_DIR}/build/ota_data_initial.bin" \
+            "${package_dir}/ota_data_initial.bin"
+          cp "${PROJECT_DIR}/build/inksight_waveshare_rlcd.bin" \
+            "${package_dir}/inksight_waveshare_rlcd.bin"
+          cp "${PROJECT_DIR}/build/flash_args" "${package_dir}/flash_args"
+          cp "${PROJECT_DIR}/RELEASE_FLASHING.md" "${package_dir}/README.md"
+
+          (
+            cd "${dist_dir}"
+            zip -qr ESP32-S3-RLCD4.2-firmware.zip ESP32-S3-RLCD4.2
+            sha256sum \
+              ESP32-S3-RLCD4.2-full.bin \
+              ESP32-S3-RLCD4.2-firmware.zip \
+              > SHA256SUMS.txt
+          )
+
+          {
+            echo "Automated ESP-IDF 5.5.3 build for Waveshare ESP32-S3-RLCD-4.2."
+            echo
+            echo "- Source commit: [\`${GITHUB_SHA}\`](https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA})"
+            echo "- \`ESP32-S3-RLCD4.2-full.bin\`: merged image for flashing at address \`0x0\`"
+            echo "- \`ESP32-S3-RLCD4.2-firmware.zip\`: individual images, flash arguments, and instructions"
+            echo "- \`SHA256SUMS.txt\`: download integrity checksums"
+            echo
+            echo "This rolling prerelease is replaced whenever the ESP-IDF port changes on \`main\`."
+          } > "${dist_dir}/release-notes.md"
+
+          echo "dist_dir=${dist_dir}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ESP32-S3-RLCD4.2-firmware
+          path: |
+            ${{ steps.package.outputs.dist_dir }}/ESP32-S3-RLCD4.2-full.bin
+            ${{ steps.package.outputs.dist_dir }}/ESP32-S3-RLCD4.2-firmware.zip
+            ${{ steps.package.outputs.dist_dir }}/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Update rolling prerelease
+        if: github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DIST_DIR: ${{ steps.package.outputs.dist_dir }}
+        run: |
+          set -euo pipefail
+
+          if gh api \
+            "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" \
+            >/dev/null 2>&1; then
+            gh api --method PATCH \
+              "repos/${GITHUB_REPOSITORY}/git/refs/tags/${RELEASE_TAG}" \
+              -f sha="${GITHUB_SHA}" \
+              -F force=true \
+              >/dev/null
+          else
+            gh api --method POST \
+              "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${RELEASE_TAG}" \
+              -f sha="${GITHUB_SHA}" \
+              >/dev/null
+          fi
+
+          release_title="ESP32-S3-RLCD4.2 Latest (${GITHUB_SHA::7})"
+          if gh release view "${RELEASE_TAG}" \
+            --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            gh release edit "${RELEASE_TAG}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "${release_title}" \
+              --notes-file "${DIST_DIR}/release-notes.md" \
+              --prerelease \
+              --latest=false
+          else
+            gh release create "${RELEASE_TAG}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --verify-tag \
+              --title "${release_title}" \
+              --notes-file "${DIST_DIR}/release-notes.md" \
+              --prerelease \
+              --latest=false
+          fi
+
+          gh release upload "${RELEASE_TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            "${DIST_DIR}/ESP32-S3-RLCD4.2-full.bin" \
+            "${DIST_DIR}/ESP32-S3-RLCD4.2-firmware.zip" \
+            "${DIST_DIR}/SHA256SUMS.txt" \
+            --clobber

@@ -16,6 +16,14 @@ The first version includes:
 Audio, RTC, SHTC3, microSD, OTA, and live voice features are not part
 of this first hardware-validation version.
 
+## Automated release
+
+Changes to this ESP-IDF project on `main` automatically update the
+[latest ESP32-S3-RLCD4.2 prerelease](https://github.com/wickenzh/inksight/releases/tag/esp32-s3-rlcd4.2-latest).
+The release provides a merged image for flashing at address `0x0`, a
+package of individual images, and SHA-256 checksums. See
+[`RELEASE_FLASHING.md`](RELEASE_FLASHING.md) for flashing instructions.
+
 ## Build and flash
 
 Install and activate ESP-IDF 5.5, then run from the repository root:
