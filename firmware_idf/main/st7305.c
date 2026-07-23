@@ -225,9 +225,9 @@ esp_err_t st7305_init(void) {
     return ESP_OK;
 }
 
-static bool pixel_is_black(const uint8_t *frame, int x, int y) {
+static bool pixel_is_white(const uint8_t *frame, int x, int y) {
     return (frame[y * INKSIGHT_ROW_BYTES + x / 8] &
-            (0x80U >> (x % 8))) == 0;
+            (0x80U >> (x % 8))) != 0;
 }
 
 static void pack_native_rows(const uint8_t *frame, int native_y_base) {
@@ -235,6 +235,7 @@ static void pack_native_rows(const uint8_t *frame, int native_y_base) {
 
     // This exactly matches the Waveshare U8g2 R1 mapping:
     // landscape (x, y) -> native (299 - y, x).
+    // The ST7305 framebuffer polarity is 1=white and 0=black.
     for (int row_pair = 0; row_pair < RLCD_ROWS_PER_TRANSFER; row_pair++) {
         int logical_x_0 = native_y_base + row_pair * 2;
         int logical_x_1 = logical_x_0 + 1;
@@ -245,10 +246,10 @@ static void pack_native_rows(const uint8_t *frame, int native_y_base) {
             for (int lane = 0; lane < 4; lane++) {
                 int logical_y =
                     INKSIGHT_HEIGHT - 1 - (native_x + lane);
-                if (pixel_is_black(frame, logical_x_0, logical_y)) {
+                if (pixel_is_white(frame, logical_x_0, logical_y)) {
                     packed |= 0x80U >> (lane * 2);
                 }
-                if (pixel_is_black(frame, logical_x_1, logical_y)) {
+                if (pixel_is_white(frame, logical_x_1, logical_y)) {
                     packed |= 0x40U >> (lane * 2);
                 }
             }
