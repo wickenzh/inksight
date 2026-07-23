@@ -98,3 +98,15 @@ jobs:
         run: pio run -e ${{ matrix.env }}
         working-directory: firmware
 
+  firmware-idf-build:
+    name: Waveshare RLCD (ESP-IDF 5.5.3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ESP32-S3 firmware
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.5.3
+          target: esp32s3
+          path: firmware_idf

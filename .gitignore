@@ -236,6 +236,17 @@ __marimo__/
 # PlatformIO build artifacts
 .pio/
 
+# ESP-IDF build artifacts
+firmware_idf/build/
+firmware_idf/sdkconfig
+firmware_idf/sdkconfig.old
+
+# Local development credentials and generated inspection artifacts
+.secrets/
+tmp/
+docs/*.pdf
+ESP32-S3-RLCD-4.2-Demo/
+
 # Next.js webapp artifacts
 webapp/node_modules/
 webapp/.next/

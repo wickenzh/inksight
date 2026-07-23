@@ -53,3 +53,35 @@ If `NEXT_PUBLIC_FIRMWARE_API_BASE` is not set, the frontend defaults to using th
 - Keep the USB connection stable
 - Switch to manual URL mode and validate the link first
 - Reboot the device and try the flashing process again
+
+## 5. Waveshare ESP32-S3-RLCD-4.2 initial firmware
+
+This hardware port is in `firmware_idf/` and uses pure ESP-IDF 5.5,
+without Arduino or PlatformIO. Until it is published in a formal Release
+and added to the Web Flasher list, install and activate ESP-IDF, then build
+and flash from the repository root:
+
+```bash
+source "$HOME/esp/esp-idf/export.sh"
+idf.py -C firmware_idf set-target esp32s3
+idf.py -C firmware_idf build
+idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX flash monitor
+```
+
+Replace `/dev/cu.usbmodemXXXX` with the actual port. If only one ESP
+device is connected, omit `-p` and let the tool detect it. Press `Ctrl+]`
+to exit the serial monitor.
+
+On the first boot without saved configuration, the device creates an
+`InkSight-XXXXXX` provisioning access point. Connect to it and open
+`http://192.168.4.1` to enter Wi-Fi, the InkSight server URL, and the
+refresh interval. Holding the onboard **KEY** (`GPIO18`) for about
+0.5 seconds during a normal boot forces provisioning. While the device
+is sleeping, a short KEY press wakes it and requests the next mode;
+holding it for about 1.5 seconds opens provisioning instead.
+
+If the board does not enter download mode automatically, hold **BOOT**,
+tap **RESET**, release **BOOT** after the serial port appears, and run
+the flash command again. To clear old settings, first run
+`idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX erase-flash`; this removes
+saved Wi-Fi and InkSight configuration from the device.

@@ -67,6 +67,11 @@ The public documentation and setup flow are centered on **ESP32-C3 + 4.2-inch e-
 
 For a first build, start with **ESP32-C3 + 4.2-inch e-paper**.
 
+An initial, pure **ESP-IDF 5.5** port is also available in
+`firmware_idf/` for the integrated **Waveshare ESP32-S3-RLCD-4.2**
+reflective LCD board. It does not depend on Arduino or PlatformIO. See the
+[hardware guide](docs/en/hardware.md) and [flashing guide](docs/en/flash.md).
+
 ## Explore the Official Website
 
 ![Official Website](images/official_web_screenshot_eng.png)

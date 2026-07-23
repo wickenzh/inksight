@@ -53,3 +53,29 @@ WebApp 会通过以下接口获取固件版本信息：
 - 保持 USB 连接稳定
 - 切换到手动 URL 模式并先做链接校验
 - 重启设备后再次进入刷机流程
+
+## 5. Waveshare ESP32-S3-RLCD-4.2 首版固件
+
+该硬件适配位于 `firmware_idf/`，使用纯 ESP-IDF 5.5，不依赖
+Arduino 或 PlatformIO。在它进入正式 Release 和 Web 在线刷机列表之前，
+请先安装并激活 ESP-IDF，然后从仓库根目录构建和烧录：
+
+```bash
+source "$HOME/esp/esp-idf/export.sh"
+idf.py -C firmware_idf set-target esp32s3
+idf.py -C firmware_idf build
+idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX flash monitor
+```
+
+将 `/dev/cu.usbmodemXXXX` 替换为实际串口；只有一台 ESP 设备时也可省略
+`-p` 让工具自动检测。按 `Ctrl+]` 退出串口监视器。
+
+首次启动且没有保存配置时，设备会创建 `InkSight-XXXXXX` 配网热点。
+连接该热点后打开 `http://192.168.4.1`，填写 Wi-Fi、InkSight 服务地址和刷新间隔。
+正常上电时按住板载 **KEY**（`GPIO18`）约 0.5 秒可强制进入配网。
+设备深度睡眠期间短按 KEY 会唤醒并请求下一个模式；持续按住约 1.5 秒则进入配网。
+
+若设备没有自动进入下载模式，按住 **BOOT**，短按 **RESET**，电脑识别到串口后
+松开 **BOOT**，再执行烧录命令。需要清除旧配置时，可先执行
+`idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX erase-flash`；此操作会删除设备中
+已保存的 Wi-Fi 和 InkSight 配置。
