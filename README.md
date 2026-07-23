@@ -1,6 +1,15 @@
 English | [中文](README_ZH.md)
 
-# InkSight
+# InkSight — ESP32-S3-RLCD4.2 Port
+
+> [!IMPORTANT]
+> This fork provides a dedicated hardware port for the
+> **Waveshare ESP32-S3-RLCD-4.2** reflective LCD board. It is based on and
+> retains attribution to the original
+> [datascale-ai/inksight](https://github.com/datascale-ai/inksight) project.
+> Unlike the upstream Arduino/PlatformIO firmware, this board port is
+> developed with pure **ESP-IDF 5.5** and lives in
+> [`ESP32-S3-RLCD4.2/`](ESP32-S3-RLCD4.2/).
 
 > A calm e-ink desk companion with one website for flashing, configuration, preview, and discovering new modes.
 
