@@ -98,7 +98,7 @@ jobs:
         run: pio run -e ${{ matrix.env }}
         working-directory: firmware
 
-  firmware-idf-build:
+  esp32-s3-rlcd42-build:
     name: Waveshare RLCD (ESP-IDF 5.5.3)
     runs-on: ubuntu-latest
     steps:
@@ -109,4 +109,4 @@ jobs:
         with:
           esp_idf_version: v5.5.3
           target: esp32s3
-          path: firmware_idf
+          path: ESP32-S3-RLCD4.2

@@ -56,15 +56,15 @@ WebApp 会通过以下接口获取固件版本信息：
 
 ## 5. Waveshare ESP32-S3-RLCD-4.2 首版固件
 
-该硬件适配位于 `firmware_idf/`，使用纯 ESP-IDF 5.5，不依赖
+该硬件适配位于 `ESP32-S3-RLCD4.2/`，使用纯 ESP-IDF 5.5，不依赖
 Arduino 或 PlatformIO。在它进入正式 Release 和 Web 在线刷机列表之前，
 请先安装并激活 ESP-IDF，然后从仓库根目录构建和烧录：
 
 ```bash
 source "$HOME/esp/esp-idf/export.sh"
-idf.py -C firmware_idf set-target esp32s3
-idf.py -C firmware_idf build
-idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX flash monitor
+idf.py -C ESP32-S3-RLCD4.2 set-target esp32s3
+idf.py -C ESP32-S3-RLCD4.2 build
+idf.py -C ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX flash monitor
 ```
 
 将 `/dev/cu.usbmodemXXXX` 替换为实际串口；只有一台 ESP 设备时也可省略
@@ -77,5 +77,5 @@ idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX flash monitor
 
 若设备没有自动进入下载模式，按住 **BOOT**，短按 **RESET**，电脑识别到串口后
 松开 **BOOT**，再执行烧录命令。需要清除旧配置时，可先执行
-`idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX erase-flash`；此操作会删除设备中
+`idf.py -C ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX erase-flash`；此操作会删除设备中
 已保存的 Wi-Fi 和 InkSight 配置。

@@ -19,7 +19,7 @@ To accommodate different developers, we provide pre-compiled firmware in our Rel
 2. **ESP32-C3 Standard Board**: Features a dedicated serial chip (like CH340) for more stable serial debugging (firmware suffix typically contains `c3_std`).
 3. **ESP32-S3 N16R8 dev board**: A 4.2-inch option for larger Flash / PSRAM builds (firmware environment: `epd_42_wsv2_ssd1683_yd_s3_n16r8`).
 4. **ESP32-WROOM-32E**: The classic standard ESP32 development board (firmware suffix typically contains `wroom32e`).
-5. **Waveshare ESP32-S3-RLCD-4.2**: An integrated ESP32-S3 N16R8 board with a 300×400 ST7305 reflective LCD and configuration button; no display wiring is required (the pure ESP-IDF project is in `firmware_idf/`).
+5. **Waveshare ESP32-S3-RLCD-4.2**: An integrated ESP32-S3 N16R8 board with a 300×400 ST7305 reflective LCD and configuration button; no display wiring is required (the pure ESP-IDF project is in `ESP32-S3-RLCD4.2/`).
 
 Why the **4.2-inch screen** paired with the **ESP32-C3 series** is recommended as the first choice:
 - screenshots and product docs are centered on the 4.2-inch version
@@ -71,14 +71,14 @@ For a first build, the default **4.2-inch** setup is still the recommended path.
 
 ### Waveshare ESP32-S3-RLCD-4.2
 
-This board uses a low-power reflective LCD (RLCD), not e-paper. The initial port in `firmware_idf/` uses ESP-IDF 5.5 SPI, Wi-Fi, HTTP, NVS, ADC, and deep-sleep APIs directly, without Arduino. It retains InkSight's 400×300 monochrome canvas and rotates and packs it into the ST7305 controller's native 300×400 format. Updates do not use e-paper waveforms. Before ESP32-S3 deep sleep, the controller is switched to low-power scan mode so the image remains visible.
+This board uses a low-power reflective LCD (RLCD), not e-paper. The initial port in `ESP32-S3-RLCD4.2/` uses ESP-IDF 5.5 SPI, Wi-Fi, HTTP, NVS, ADC, and deep-sleep APIs directly, without Arduino. It retains InkSight's 400×300 monochrome canvas and rotates and packs it into the ST7305 controller's native 300×400 format. Updates do not use e-paper waveforms. Before ESP32-S3 deep sleep, the controller is switched to low-power scan mode so the image remains visible.
 
 The first version supports display output, web-based Wi-Fi provisioning, InkSight device tokens and `/api/render`, scheduled refreshes, battery voltage measurement, and onboard KEY wake/next-mode/provisioning. The onboard audio codecs and microphone, RTC, temperature/humidity sensor, microSD slot, and OTA are not yet integrated with InkSight.
 
 ## 4. Pin mappings
 
 The regular e-paper firmware pin definitions are in `firmware/src/config.h`.
-The Waveshare reflective LCD port uses `firmware_idf/main/board_config.h`.
+The Waveshare reflective LCD port uses `ESP32-S3-RLCD4.2/main/board_config.h`.
 
 ### ESP32-C3 profile
 

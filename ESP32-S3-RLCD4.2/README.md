@@ -21,9 +21,9 @@ of this first hardware-validation version.
 Install and activate ESP-IDF 5.5, then run from the repository root:
 
 ```bash
-idf.py -C firmware_idf set-target esp32s3
-idf.py -C firmware_idf build
-idf.py -C firmware_idf -p /dev/cu.usbmodemXXXX flash monitor
+idf.py -C ESP32-S3-RLCD4.2 set-target esp32s3
+idf.py -C ESP32-S3-RLCD4.2 build
+idf.py -C ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX flash monitor
 ```
 
 On first boot, connect to the `InkSight-XXXXXX` Wi-Fi network and open

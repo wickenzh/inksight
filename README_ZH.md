@@ -67,7 +67,7 @@
 
 如果你是第一次上手，建议从 **ESP32-C3 + 4.2寸** 开始。
 
-仓库的 `firmware_idf/` 中也提供了 **Waveshare
+仓库的 `ESP32-S3-RLCD4.2/` 中也提供了 **Waveshare
 ESP32-S3-RLCD-4.2** 一体式反射屏的首版适配。该适配使用纯
 **ESP-IDF 5.5**，不依赖 Arduino 或 PlatformIO；构建和烧录方法见
 [硬件指南](docs/hardware.md)与[刷机指南](docs/flash.md)。
