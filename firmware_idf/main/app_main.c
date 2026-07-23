@@ -152,6 +152,11 @@ void app_main(void) {
     }
 
     float battery_voltage = battery_read_voltage();
+    ESP_LOGI(
+        TAG,
+        "Main stack free before backend=%u bytes",
+        (unsigned)uxTaskGetStackHighWaterMark(NULL)
+    );
     backend_render_info_t render_info;
     esp_err_t render_error = backend_render(
         &s_config,
@@ -160,6 +165,11 @@ void app_main(void) {
         wifi_manager_rssi(),
         s_frame,
         &render_info
+    );
+    ESP_LOGI(
+        TAG,
+        "Main stack minimum free after backend=%u bytes",
+        (unsigned)uxTaskGetStackHighWaterMark(NULL)
     );
 
     if (render_error == ESP_OK) {

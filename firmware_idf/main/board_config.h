@@ -2,7 +2,7 @@
 
 #include "driver/gpio.h"
 
-#define INKSIGHT_IDF_VERSION "0.1.0"
+#define INKSIGHT_IDF_VERSION "0.1.1"
 
 #define INKSIGHT_WIDTH 400
 #define INKSIGHT_HEIGHT 300
