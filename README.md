@@ -1,154 +1,155 @@
-English | [中文](README_ZH.md)
+[English](README_EN.md) | 中文
 
-# InkSight — ESP32-S3-RLCD4.2 Port
+# 墨鱼 | InkSight — ESP32-S3-RLCD4.2 适配
 
 > [!IMPORTANT]
-> This fork provides a dedicated hardware port for the
-> **Waveshare ESP32-S3-RLCD-4.2** reflective LCD board. It is based on and
-> retains attribution to the original
-> [datascale-ai/inksight](https://github.com/datascale-ai/inksight) project.
-> Unlike the upstream Arduino/PlatformIO firmware, this board port is
-> developed with pure **ESP-IDF 5.5** and lives in
-> [`ESP32-S3-RLCD4.2/`](ESP32-S3-RLCD4.2/).
+> 本 Fork 专门适配 **Waveshare ESP32-S3-RLCD-4.2** 反射式 LCD 一体板，
+> 基于并保留对原作者项目
+> [datascale-ai/inksight](https://github.com/datascale-ai/inksight) 的引用与署名。
+> 与上游采用 Arduino/PlatformIO 的固件不同，本设备适配使用纯
+> **ESP-IDF 5.5** 开发，代码位于
+> [`ESP32-S3-RLCD4.2/`](ESP32-S3-RLCD4.2/)。
+>
+> 当前仅完成了基础适配与初步硬件验证，并未对原项目的全部功能、
+> 板载外设和长期运行场景进行完整测试。请将本仓库视为实验性的首版适配，
+> 暂不代表与上游正式固件具备完全相同的功能和稳定性。
 
-> A calm e-ink desk companion with one website for flashing, configuration, preview, and discovering new modes.
+> 一块真正适合放在桌面的电子墨水信息屏，并配有一个能一站式完成刷机、配置、预览与发现创意模式的网站。
 
-Official website: [https://www.inksight.site](https://www.inksight.site)
+官网主页：[https://www.inksight.site](https://www.inksight.site)
 
-![InkSight](images/intro_eng.jpg)
+![InkSight](images/intro.jpg)
 
-## Why It Stands Out
+## 它为什么特别
 
-InkSight turns a small e-ink screen into a quiet, always-visible information surface for your desk.
-Instead of another glowing notification feed, it gives you useful, beautiful, and customizable content in a paper-like form.
+墨鱼AI墨水屏是一个面向桌面场景的电子墨水屏伴侣。
+它不是另一块“会打扰你的屏幕”，而是把天气、习惯、便签、倒计时、简报和更有温度的内容，以纸面般克制的方式放到你的视线里。
 
-- **Useful at a glance** — weather, countdowns, memos, habits, briefings, and daily prompts
-- **Made for desks** — a paper-like e-ink display that stays visible without adding screen fatigue
-- **Beautiful and varied** — 24 built-in modes, from practical dashboards to more atmospheric content
-- **A one-stop website experience** — beginner-friendly browser flashing, online setup, preview, and mode discovery
-- **Open and extensible** — firmware, backend, web configuration, and the JSON mode system are all designed to be expanded over time, including future hardware design files
+- **抬头即见**：天气、倒计时、便签、习惯、简报一眼可读
+- **电子墨水体验**：纸感显示，不刺眼，适合长时间放在桌面，超长时间待机
+- **模式丰富且好看**：24 个内置模式，既有实用信息，也有更适合桌面氛围的内容
+- **网站一站式完成**：小白友好一键配置，网页刷机、在线配置、无设备预览、模式广场都已打通
+- **开源且可扩展**：固件、后端、Web 配置、JSON 模式系统都可扩展，之后会开源PCB板设计图纸、外壳3D打印图纸等等
 
-## One Website, End to End
+## 一个网站完成整条体验
 
-The website brings the whole user flow together in one place.
-Even if you are completely new to e-paper devices, ESP32 boards, or WebSerial, the product is designed so you can get started by following the UI step by step instead of assembling your own toolchain first.
+当前官网不只是展示页，而是把完整体验串在一起。
+哪怕你是第一次接触电子墨水屏、ESP32 或 WebSerial，也可以跟着页面一步步完成上手；很多情况下，你几乎只需要点点屏幕，就能完成设备刷机、联网和配置。
 
-- **Flash firmware in the browser** with the Web Flasher, without starting from a local flashing setup
-- **Configure devices online** with modes, preferences, refresh strategy, and per-mode overrides
-- **Preview content before saving** so the final e-ink result is visible in advance
-- **Try it even without a device** through the no-device demo flow
-- **Discover community creations** in the mode plaza, then install and reuse ideas shared by other users
+- **在线刷机**：浏览器里直接完成 Web Flasher，不需要先装复杂工具链
+- **在线配置**：在 `/config` 里完成设备模式、个性化设置与常用参数调整
+- **在线预览**：保存前先看到墨水屏效果，减少“改了才知道不合适”的试错
+- **无设备体验**：没有设备也能先玩模式和预览，先理解产品体验再决定要不要做
+- **模式广场**：发现、分享、安装社区用户创作的模式，让灵感和玩法可以流动起来
 
-This makes InkSight feel less like a kit with scattered tools and more like a complete product experience.
+这让墨鱼AI墨水屏不只是一个开源硬件项目，也更像一个完整产品。
 
-## Rich Mode Library
+## 丰富而精美的模式库
 
-InkSight currently ships with **24 built-in modes**, including:
+当前内置 **24 个模式**，包括：
 
-- **Daily Picks** — quotes, books, facts, and seasonal context
-- **Weather Dashboard** — live weather with practical advice
-- **Poetry / Zen / Stoic** — calm, reflective content for focused desks
-- **AI Briefing** — technology highlights and AI insights
-- **ArtWall** — black-and-white AI artwork tailored to context
-- **Memo / Countdown / Habit / Fitness** — practical everyday desk utilities
+- **每日推荐**：语录、书籍、冷知识、节气信息
+- **天气看板**：实时天气与趋势摘要
+- **诗词 / 禅意 / 斯多葛**：更适合桌面氛围的慢内容
+- **AI 简报**：科技热点与 AI 洞察
+- **AI 画廊**：黑白风格的上下文艺术图
+- **便签 / 倒计时 / 习惯 / 健身**：更偏实用的桌面工具模式
 
-You can also:
+同时你还可以：
 
-- **create custom modes**
-- **save them to your device**
-- **share them to the mode plaza**
-- **install community-created modes**
+- **创建自己的自定义模式**
+- **把模式保存到设备**
+- **把创意发布到模式广场**
+- **安装别人分享的社区模式**
 
-## Recommended Hardware
+## 推荐硬件方案
 
-InkSight is easiest to build with the following setup:
+最推荐的入门组合：
 
-| Part | Recommended choice |
-|------|--------------------|
-| MCU | ESP32-C3 development board |
-| Display | 4.2-inch SPI e-paper display |
-| Power | USB for development, optional lithium battery build (recommended `505060-2000mAh` + TP5000) |
-| Cost | Typical DIY BOM around **CNY 220** |
+| 部件 | 推荐选型 |
+|------|----------|
+| 主控 | ESP32-C3 开发板 |
+| 屏幕 | 4.2寸 SPI 墨水屏 |
+| 供电 | 开发期 USB，长期使用可选锂电池方案（推荐 `505060-2000mAh` + TP5000） |
+| 成本 | DIY BOM 通常约 **220 元** |
 
-> **For detailed purchasing schemes and part links**, please refer to the [**Hardware Purchasing Guide**](docs/en/bom.md) (Note: links are mostly for Taobao, but equivalent parts can be found on AliExpress/Amazon).
+> **详细的硬件购买方案与淘宝链接**，请参考：[**硬件购买清单与方案推荐**](docs/bom.md)
 
-The public documentation and setup flow are centered on **ESP32-C3 + 4.2-inch e-paper**.
+当前对外推荐统一以 **ESP32-C3 + 4.2寸墨水屏** 为主。
 
-For a first build, start with **ESP32-C3 + 4.2-inch e-paper**.
+如果你是第一次上手，建议从 **ESP32-C3 + 4.2寸** 开始。
 
-An initial, pure **ESP-IDF 5.5** port is also available in
-`ESP32-S3-RLCD4.2/` for the integrated **Waveshare ESP32-S3-RLCD-4.2**
-reflective LCD board. It does not depend on Arduino or PlatformIO. See the
-[hardware guide](docs/en/hardware.md) and [flashing guide](docs/en/flash.md).
+仓库的 `ESP32-S3-RLCD4.2/` 中也提供了 **Waveshare
+ESP32-S3-RLCD-4.2** 一体式反射屏的首版适配。该适配使用纯
+**ESP-IDF 5.5**，不依赖 Arduino 或 PlatformIO；构建和烧录方法见
+[硬件指南](docs/hardware.md)与[刷机指南](docs/flash.md)。
 
-## Explore the Official Website
+## 体验我们的软件(一站式官网)
 
-![Official Website](images/official_web_screenshot_eng.png)
+![Official_Website](images/official_web_screenshot.png)
 
-If you want to get a feel for the product before buying parts or setting up anything locally, the official website is the best place to start:
+如果你想先感受和了解产品，可以直接访问官网去体验：
 
-- **Homepage** — a quick overview of the product and how the experience fits together
-- **Web flasher** — browser-based firmware flashing, with a walkthrough video here: [`Flashing tutorial`](https://www.bilibili.com/video/BV1aWcQzQE3r/?spm_id_from=333.1387.homepage.video_card.click&vd_source=166ea338ef8c38d7904da906b88ef0b7)
-- **Device configuration** — once a device is flashed, this is where you configure what it shows
-- **Mode plaza** — browse community-made creations, publish your own, or install modes shared by other users
-- **No-device demo** — try the experience even if you do not own the hardware yet
+- 官网：[`inksight.site`](https://www.inksight.site)
+- 在线刷机：支持一键拉取我们发布的最新固件代码并部署，教程视频: [`刷机视频教程`](https://www.bilibili.com/video/BV1aWcQzQE3r/?spm_id_from=333.1387.homepage.video_card.click&vd_source=166ea338ef8c38d7904da906b88ef0b7)
+- 设备配置：当刷完设备之后，可以在这里配置显示的内容
+- 模式广场：可以分享自己的大作，也可以用上大神们设计的精美模式
+- 无设备体验：提供给还没有设备的朋友们一个体验的机会
 
-## Build the Device
+## 动手做一台墨鱼AI墨水屏
 
-If you enjoy DIY hardware and want to build your own InkSight unit, or if you already have the parts but are not sure how to wire and assemble them, start here:
+![动手做一台墨鱼AI墨水屏](images/build-device.png)
 
-![Build the Device](images/build-device.png)
+如果你喜欢 DIY、想亲手组一台自己的墨鱼AI墨水屏，买到了设备之后不知道如何组装的话，可以参考 [`组装视频教程`](https://www.bilibili.com/video/BV1spwKzUE6N?spm_id_from=333.788.videopod.sections&vd_source=166ea338ef8c38d7904da906b88ef0b7)
 
-You can also follow the step-by-step assembly video here: [`Assembly tutorial`](https://www.bilibili.com/video/BV1spwKzUE6N?spm_id_from=333.788.videopod.sections&vd_source=166ea338ef8c38d7904da906b88ef0b7)
+我们也准备了相应的文档：
 
-We also provide the matching docs:
+- 硬件指南：[`docs/hardware.md`](docs/hardware.md)
+- 组装指南：[`docs/assembly.md`](docs/assembly.md)
+- 刷机指南：[`docs/flash.md`](docs/flash.md)
+- 配置指南：[`docs/config.md`](docs/config.md)
 
-- Hardware guide: [`docs/hardware.md`](docs/hardware.md)
-- Assembly guide: [`docs/assembly.md`](docs/assembly.md)
-- Flashing guide: [`docs/flash.md`](docs/flash.md)
-- Configuration guide: [`docs/config.md`](docs/config.md)
+## 社区优秀作品展示
 
-## Community Showcase
+非常感谢社区开发者们为 InkSight 创作的精美外壳和定制 PCB！以下是一些优秀的社区开源硬件和 3D 打印模型：
 
-We are thrilled to see the amazing cases and custom PCBs created by the InkSight community! Here are some excellent community contributions:
-
-### 3D Printable Cases
-- **[Orange Desktop Case (MakerWorld)](https://makerworld.com/zh/@CANLAY)**
+### 3D 打印外壳
+- **[适配 InkSight 4.2寸 桌面外壳 18650电池版](https://makerworld.com.cn/zh/models/2315926-gua-pei-inksight-4-2cun-zhi-neng-dian-zi-mo-shui-p#profileId-2617500)**
   
   <img src="images/community/case1.png" width="400">
 
-- **[Pink/Red Minimalist Cases (MakerWorld)](https://makerworld.com/zh/@CANLAY)**
+- **[InkSight 4.2寸](https://makerworld.com.cn/zh/models/2319168-fu-ke-jiao-cheng-gua-pei-inksight-4-2cun-zhi-neng#profileId-2621798)**
   
   <img src="images/community/case2.png" width="400">
   <img src="images/community/case3.png" width="400">
 
-- **[Huawei Nova 14 Color Display Phone Case 3.98-inch 4-Color E-ink Screen](https://makerworld.com.cn/zh/models/2399226-gu-jian-kai-yuan-diy-hua-wei-nova14cai-xian-shou-j#profileId-2744953)**
+- **[华为Nova14彩显手机壳3.98寸四色墨水屏](https://makerworld.com.cn/zh/models/2399226-gu-jian-kai-yuan-diy-hua-wei-nova14cai-xian-shou-j#profileId-2744953)**
 
-  <img src="images/community/case4.png" width="400">
+<img src="images/community/case4.png" width="400">
 
-### Custom PCBs
-- **[InkSight 4.2" Custom Driver Board (OSHWHUB)](https://oshwhub.com/kidstory/4-2)**
+### 定制 PCB 驱动板
+- **[4.2寸墨水屏驱动（InkSight 定制版）](https://oshwhub.com/kidstory/4-2)**
   
   <img src="images/community/pcb1.png" width="400">
 
-- **[Moyu AI E-ink Screen (Verified)](https://oshwhub.com/qq173972819/project_mqihrlpc)**
+- **[墨鱼AI墨水屏（已验证）](https://oshwhub.com/qq173972819/project_mqihrlpc)**
   
   <img src="images/community/pcb2.png" width="400">
 
-## Self-Host or Develop
+## 本地部署服务 / 二次开发
 
-If you are a developer, want to run your own local deployment, or want to go beyond the hosted website and build custom integrations or workflows, start here:
+如果你是开发者、想在本地部署一套服务，或者不仅仅满足我们提供的官网服务，准备二次开发、联调 API 和前后端流程，请从这里进入：
 
-- Deployment guide: [`docs/en/deploy.md`](docs/en/deploy.md)
 - 中文部署文档：[`docs/deploy.md`](docs/deploy.md)
-- Architecture: [`docs/en/architecture.md`](docs/en/architecture.md)
-- API: [`docs/en/api.md`](docs/en/api.md)
-- Plugin / extension development: [`docs/en/plugin-dev.md`](docs/en/plugin-dev.md)
+- English deployment guide: [`docs/en/deploy.md`](docs/en/deploy.md)
+- 架构设计：[`docs/architecture.md`](docs/architecture.md)
+- API：[`docs/api.md`](docs/api.md)
+- 插件 / 扩展开发：[`docs/plugin-dev.md`](docs/plugin-dev.md)
 
-## Community
+## 社区
 
 - Discord: [https://discord.gg/5Ne6D4YNf](https://discord.gg/5Ne6D4YNf)
 - QQ 群: [1026120682](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=kha7gD4FzS3ld_f9bx_TlLIj94Oyoip1&authKey=n4yACMiVaMagSs5HUH5HLw%2BhXdKRFjCDI4rAt7zdVym7yTeXwMxTkWqUjE9jzjXo&noverify=0&group_code=1026120682)
-- BiliBili: [https://www.bilibili.com/video/BV1nSNcziE7q/](https://www.bilibili.com/video/BV1nSNcziE7q/)
+- [BiliBili](https://www.bilibili.com/video/BV1nSNcziE7q/)
 
-![QQ Group QR Code](images/QQ_EN.jpg)
+![QQ 群二维码](images/QQ.jpg)
