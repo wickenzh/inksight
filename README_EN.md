@@ -9,7 +9,7 @@ English | [中文](README.md)
 > [datascale-ai/inksight](https://github.com/datascale-ai/inksight) project.
 > Unlike the upstream Arduino/PlatformIO firmware, this board port is
 > developed with pure **ESP-IDF 5.5** and lives in
-> [`ESP32-S3-RLCD4.2/`](ESP32-S3-RLCD4.2/).
+> [`firmware/esp-idf/ESP32-S3-RLCD4.2/`](firmware/esp-idf/ESP32-S3-RLCD4.2/).
 >
 > This is currently a basic port with preliminary hardware validation.
 > The original project's complete feature set, all onboard peripherals,
@@ -83,7 +83,7 @@ The public documentation and setup flow are centered on **ESP32-C3 + 4.2-inch e-
 For a first build, start with **ESP32-C3 + 4.2-inch e-paper**.
 
 An initial, pure **ESP-IDF 5.5** port is also available in
-`ESP32-S3-RLCD4.2/` for the integrated **Waveshare ESP32-S3-RLCD-4.2**
+`firmware/esp-idf/ESP32-S3-RLCD4.2/` for the integrated **Waveshare ESP32-S3-RLCD-4.2**
 reflective LCD board. It does not depend on Arduino or PlatformIO. See the
 [hardware guide](docs/en/hardware.md) and [flashing guide](docs/en/flash.md).
 

@@ -8,7 +8,7 @@
 > [datascale-ai/inksight](https://github.com/datascale-ai/inksight) 的引用与署名。
 > 与上游采用 Arduino/PlatformIO 的固件不同，本设备适配使用纯
 > **ESP-IDF 5.5** 开发，代码位于
-> [`ESP32-S3-RLCD4.2/`](ESP32-S3-RLCD4.2/)。
+> [`firmware/esp-idf/ESP32-S3-RLCD4.2/`](firmware/esp-idf/ESP32-S3-RLCD4.2/)。
 >
 > 当前仅完成了基础适配与初步硬件验证，并未对原项目的全部功能、
 > 板载外设和长期运行场景进行完整测试。请将本仓库视为实验性的首版适配，
@@ -79,7 +79,7 @@
 
 如果你是第一次上手，建议从 **ESP32-C3 + 4.2寸** 开始。
 
-仓库的 `ESP32-S3-RLCD4.2/` 中也提供了 **Waveshare
+仓库的 `firmware/esp-idf/ESP32-S3-RLCD4.2/` 中也提供了 **Waveshare
 ESP32-S3-RLCD-4.2** 一体式反射屏的首版适配。该适配使用纯
 **ESP-IDF 5.5**，不依赖 Arduino 或 PlatformIO；构建和烧录方法见
 [硬件指南](docs/hardware.md)与[刷机指南](docs/flash.md)。

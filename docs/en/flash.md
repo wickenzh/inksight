@@ -56,16 +56,16 @@ If `NEXT_PUBLIC_FIRMWARE_API_BASE` is not set, the frontend defaults to using th
 
 ## 5. Waveshare ESP32-S3-RLCD-4.2 initial firmware
 
-This hardware port is in `ESP32-S3-RLCD4.2/` and uses pure ESP-IDF 5.5,
+This hardware port is in `firmware/esp-idf/ESP32-S3-RLCD4.2/` and uses pure ESP-IDF 5.5,
 without Arduino or PlatformIO. Until it is published in a formal Release
 and added to the Web Flasher list, install and activate ESP-IDF, then build
 and flash from the repository root:
 
 ```bash
 source "$HOME/esp/esp-idf/export.sh"
-idf.py -C ESP32-S3-RLCD4.2 set-target esp32s3
-idf.py -C ESP32-S3-RLCD4.2 build
-idf.py -C ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX flash monitor
+idf.py -C firmware/esp-idf/ESP32-S3-RLCD4.2 set-target esp32s3
+idf.py -C firmware/esp-idf/ESP32-S3-RLCD4.2 build
+idf.py -C firmware/esp-idf/ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX flash monitor
 ```
 
 Replace `/dev/cu.usbmodemXXXX` with the actual port. If only one ESP
@@ -83,5 +83,5 @@ holding it for about 1.5 seconds opens provisioning instead.
 If the board does not enter download mode automatically, hold **BOOT**,
 tap **RESET**, release **BOOT** after the serial port appears, and run
 the flash command again. To clear old settings, first run
-`idf.py -C ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX erase-flash`; this removes
+`idf.py -C firmware/esp-idf/ESP32-S3-RLCD4.2 -p /dev/cu.usbmodemXXXX erase-flash`; this removes
 saved Wi-Fi and InkSight configuration from the device.

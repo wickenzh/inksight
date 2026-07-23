@@ -109,4 +109,4 @@ jobs:
         with:
           esp_idf_version: v5.5.3
           target: esp32s3
-          path: ESP32-S3-RLCD4.2
+          path: firmware/esp-idf/ESP32-S3-RLCD4.2

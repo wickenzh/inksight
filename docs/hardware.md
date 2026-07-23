@@ -18,7 +18,7 @@
 2. **ESP32-C3 标准板**：带独立串口芯片（如 CH340），串口调试更稳定（固件后缀常带 `c3_std`）。
 3. **ESP32-S3 N16R8 开发板**：适合需要更大 Flash / PSRAM 的 4.2 寸方案（固件环境为 `epd_42_wsv2_ssd1683_yd_s3_n16r8`）。
 4. **ESP32-WROOM-32E**：经典的 ESP32 标准开发板（固件后缀常带 `wroom32e`）。
-5. **Waveshare ESP32-S3-RLCD-4.2**：集成 300×400 ST7305 反射式 LCD、ESP32-S3 N16R8 和配置按键，无需屏幕接线（纯 ESP-IDF 工程位于 `ESP32-S3-RLCD4.2/`）。
+5. **Waveshare ESP32-S3-RLCD-4.2**：集成 300×400 ST7305 反射式 LCD、ESP32-S3 N16R8 和配置按键，无需屏幕接线（纯 ESP-IDF 工程位于 `firmware/esp-idf/ESP32-S3-RLCD4.2/`）。
 
 推荐以 **4.2 寸屏幕** 搭配 **ESP32-C3 系列开发板** 作为首选方案的原因：
 - 资料、文档、配置页预览都优先围绕 4.2寸版本展开
@@ -70,14 +70,14 @@
 
 ### Waveshare ESP32-S3-RLCD-4.2
 
-该板使用的是低功耗反射式 LCD（RLCD），不是电子纸。首版适配位于 `ESP32-S3-RLCD4.2/`，直接使用 ESP-IDF 5.5 的 SPI、Wi-Fi、HTTP、NVS、ADC 和深度睡眠接口，不依赖 Arduino。它复用 InkSight 的 400×300 黑白画布，并在驱动层旋转、打包为 ST7305 的原生 300×400 格式。屏幕更新不需要电子纸波形刷新，进入 ESP32-S3 深度睡眠前会切换到 ST7305 低功耗扫描模式，以继续保持画面。
+该板使用的是低功耗反射式 LCD（RLCD），不是电子纸。首版适配位于 `firmware/esp-idf/ESP32-S3-RLCD4.2/`，直接使用 ESP-IDF 5.5 的 SPI、Wi-Fi、HTTP、NVS、ADC 和深度睡眠接口，不依赖 Arduino。它复用 InkSight 的 400×300 黑白画布，并在驱动层旋转、打包为 ST7305 的原生 300×400 格式。屏幕更新不需要电子纸波形刷新，进入 ESP32-S3 深度睡眠前会切换到 ST7305 低功耗扫描模式，以继续保持画面。
 
 首版支持屏幕显示、网页 Wi-Fi 配网、InkSight 设备令牌和 `/api/render`、定时刷新、电池电压读取，以及板载 KEY 唤醒/切换模式/配网。板载音频 Codec、麦克风、RTC、温湿度传感器、microSD 和 OTA 尚未接入 InkSight。
 
 ## 4. 引脚定义
 
 常规电子纸固件的引脚定义位于 `firmware/src/config.h`；Waveshare
-反射屏适配的引脚定义位于 `ESP32-S3-RLCD4.2/main/board_config.h`。
+反射屏适配的引脚定义位于 `firmware/esp-idf/ESP32-S3-RLCD4.2/main/board_config.h`。
 
 ### ESP32-C3 Profile
 

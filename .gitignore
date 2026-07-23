@@ -237,9 +237,9 @@ __marimo__/
 .pio/
 
 # ESP-IDF build artifacts
-ESP32-S3-RLCD4.2/build/
-ESP32-S3-RLCD4.2/sdkconfig
-ESP32-S3-RLCD4.2/sdkconfig.old
+firmware/esp-idf/ESP32-S3-RLCD4.2/build/
+firmware/esp-idf/ESP32-S3-RLCD4.2/sdkconfig
+firmware/esp-idf/ESP32-S3-RLCD4.2/sdkconfig.old
 
 # Local development credentials and generated inspection artifacts
 .secrets/
