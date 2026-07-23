@@ -57,9 +57,9 @@ If `NEXT_PUBLIC_FIRMWARE_API_BASE` is not set, the frontend defaults to using th
 ## 5. Waveshare ESP32-S3-RLCD-4.2 initial firmware
 
 This hardware port is in `firmware/esp-idf/ESP32-S3-RLCD4.2/` and uses pure ESP-IDF 5.5,
-without Arduino or PlatformIO. Until it is published in a formal Release
-and added to the Web Flasher list, install and activate ESP-IDF, then build
-and flash from the repository root:
+without Arduino or PlatformIO. Download the
+[latest automated prerelease](https://github.com/wickenzh/inksight/releases/tag/esp32-s3-rlcd4.2-latest),
+or install and activate ESP-IDF and then build and flash from the repository root:
 
 ```bash
 source "$HOME/esp/esp-idf/export.sh"
@@ -75,7 +75,9 @@ to exit the serial monitor.
 On the first boot without saved configuration, the device creates an
 `InkSight-XXXXXX` provisioning access point. Connect to it and open
 `http://192.168.4.1` to enter Wi-Fi, the InkSight server URL, and the
-refresh interval. Holding the onboard **KEY** (`GPIO18`) for about
+refresh interval. The server field is prefilled with the official backend,
+`https://web.inksight.site`; replace it only when using a self-hosted
+service. Holding the onboard **KEY** (`GPIO18`) for about
 0.5 seconds during a normal boot forces provisioning. While the device
 is sleeping, a short KEY press wakes it and requests the next mode;
 holding it for about 1.5 seconds opens provisioning instead.

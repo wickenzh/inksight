@@ -8,6 +8,8 @@ The first version includes:
 - native ST7305 SPI initialization and 400×300 landscape rendering;
 - open provisioning AP and a setup page at `http://192.168.4.1`;
 - NVS-backed Wi-Fi, backend URL, device token, and refresh interval;
+- `https://web.inksight.site` prefilled as the default backend while
+  retaining support for self-hosted URLs;
 - InkSight `/api/device/{mac}/token` and `/api/render` integration;
 - 1-, 8-, 24-, and 32-bit uncompressed BMP decoding;
 - battery measurement, KEY wake/next mode, and timer deep sleep;

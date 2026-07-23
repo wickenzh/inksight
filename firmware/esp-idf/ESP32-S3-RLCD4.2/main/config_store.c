@@ -13,12 +13,17 @@ static void read_string(
     nvs_handle_t handle,
     const char *key,
     char *destination,
-    size_t destination_size
+    size_t destination_size,
+    const char *fallback
 ) {
     size_t required = destination_size;
     esp_err_t err = nvs_get_str(handle, key, destination, &required);
     if (err != ESP_OK) {
-        destination[0] = '\0';
+        strlcpy(
+            destination,
+            fallback != NULL ? fallback : "",
+            destination_size
+        );
     }
 }
 
@@ -27,6 +32,11 @@ void config_store_defaults(inksight_config_t *config) {
         return;
     }
     memset(config, 0, sizeof(*config));
+    strlcpy(
+        config->server,
+        INKSIGHT_DEFAULT_SERVER_URL,
+        sizeof(config->server)
+    );
     config->sleep_minutes = INKSIGHT_DEFAULT_SLEEP_MINUTES;
 }
 
@@ -54,14 +64,34 @@ esp_err_t config_store_load(inksight_config_t *config) {
         return ESP_OK;
     }
 
-    read_string(handle, "ssid", config->ssid, sizeof(config->ssid));
-    read_string(handle, "pass", config->password, sizeof(config->password));
-    read_string(handle, "server", config->server, sizeof(config->server));
+    read_string(handle, "ssid", config->ssid, sizeof(config->ssid), "");
+    read_string(
+        handle,
+        "pass",
+        config->password,
+        sizeof(config->password),
+        ""
+    );
+    read_string(
+        handle,
+        "server",
+        config->server,
+        sizeof(config->server),
+        INKSIGHT_DEFAULT_SERVER_URL
+    );
+    if (config->server[0] == '\0') {
+        strlcpy(
+            config->server,
+            INKSIGHT_DEFAULT_SERVER_URL,
+            sizeof(config->server)
+        );
+    }
     read_string(
         handle,
         "device_token",
         config->device_token,
-        sizeof(config->device_token)
+        sizeof(config->device_token),
+        ""
     );
 
     int32_t sleep_minutes = INKSIGHT_DEFAULT_SLEEP_MINUTES;
